@@ -2,7 +2,9 @@
 
 Vue.js 2.0 template loader for webpack
 
-This loader is just pre-compile a template by using [vue-template-compiler](https://www.npmjs.com/package/vue-template-compiler) and provide a function that can inject render function to a component options object.
+This loader is just pre-compile a template by using [vue-template-compiler](https://www.npmjs.com/package/vue-template-compiler) and provide a function that can inject render function to a component options object.  
+
+Usually, you had better to use [vue-loader](https://github.com/vuejs/vue-loader).
 
 ## Configuration for webpack
 
