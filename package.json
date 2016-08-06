@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Vue.js 2.0 template loader",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ktsn/vue-template-loader.git"
