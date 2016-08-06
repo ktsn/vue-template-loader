@@ -1,0 +1,28 @@
+{
+  "name": "vue-template-loader",
+  "version": "0.1.0",
+  "description": "Vue.js 2.0 template loader",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ktsn/vue-template-loader.git"
+  },
+  "keywords": [
+    "vue.js",
+    "webpack",
+    "template",
+    "loader"
+  ],
+  "author": "katashin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ktsn/vue-template-loader/issues"
+  },
+  "homepage": "https://github.com/ktsn/vue-template-loader#readme",
+  "dependencies": {
+    "vue-template-compiler": "^2.0.0-beta.6"
+  },
+  "devDependencies": {
+    "eslint": "^3.2.2"
+  }
+}
