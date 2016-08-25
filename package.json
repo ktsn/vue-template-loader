@@ -2,9 +2,9 @@
   "name": "vue-template-loader",
   "version": "0.1.1",
   "description": "Vue.js 2.0 template loader for webpack",
-  "main": "index.js",
+  "main": "lib/index.js",
   "files": [
-    "index.js"
+    "lib"
   ],
   "repository": {
     "type": "git",
@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/ktsn/vue-template-loader#readme",
   "dependencies": {
-    "vue-template-compiler": "^2.0.0-beta.6"
+    "vue-hot-reload-api": "^2.0.6",
+    "vue-template-compiler": "^2.0.0-rc.3"
   },
   "devDependencies": {
     "eslint": "^3.2.2"
