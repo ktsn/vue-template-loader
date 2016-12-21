@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "vue-hot-reload-api": "^2.0.6",
-    "vue-template-compiler": "^2.1.6"
+    "vue-template-compiler": "^2.1.6",
+    "vue-template-es2015-compiler": "^1.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
