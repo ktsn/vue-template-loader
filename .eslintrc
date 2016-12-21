@@ -1,23 +1,4 @@
 ---
-  extends: eslint:recommended
-  env:
-    es6: true
-    commonjs: true
-    node: true
+  extends: eslint-config-ktsn
   parserOptions:
     ecmaVersion: 6
-  rules:
-    dot-notation: 2
-    eqeqeq: [2, smart]
-    no-eval: 2
-    no-use-before-define: [2, nofunc]
-    radix: [1, as-needed]
-    no-loop-func: 1
-    no-multi-spaces: 1
-    no-warning-comments: 1
-    no-unused-vars: 1
-    no-console: 0
-    camelcase: [1, {properties: never}]
-    indent: [1, 2]
-    quotes: [1, single]
-    semi: [1, never]
