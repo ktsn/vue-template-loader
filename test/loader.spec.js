@@ -51,7 +51,7 @@ describe('vue-template-loader', () => {
     expect(vnode.children[0].children[0]).toBe('hello')
   })
 
-  it('used as decorator', () => {
+  it('is used as decorator', () => {
     const WithRender = load('<div><p>hi</p></div>')
 
     @WithRender
