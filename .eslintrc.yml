@@ -2,3 +2,5 @@
   extends: eslint-config-ktsn
   parserOptions:
     ecmaVersion: 6
+  rules:
+    no-console: 0

@@ -4,7 +4,7 @@ const Vue = require('vue')
 const Component = require('vue-class-component').default
 
 function mockRender (options, data = {}) {
-  return options.render.call(Object.assign({
+  const mock = {
     _c (tag, data, children) {
       if (Array.isArray(data)) {
         children = data
@@ -25,14 +25,27 @@ function mockRender (options, data = {}) {
     _s (str) {
       return String(str)
     }
-  }, data))
+  }
+
+  Object.defineProperty(mock, '_self', {
+    get () {
+      return this
+    }
+  })
+
+  return options.render.call(Object.assign(mock, data))
 }
 
-function load (data) {
-  return requireFromString(loader.call({
+function loadCode(data, { style } = {}) {
+  return loader.call({
     cacheable: () => {},
-    options: {}
-  }, data))
+    options: {},
+    request: 'foo.html' + (style ? `?style=${style}` : '')
+  }, data)
+}
+
+function load (data, options) {
+  return requireFromString(loadCode(data, options))
 }
 
 describe('vue-template-loader', () => {
@@ -65,5 +78,19 @@ describe('vue-template-loader', () => {
 
     const vnode = mockRender(Comp.options)
     expect(vnode.children[0].children[0]).toBe('hi')
+  })
+
+  it('does not inject style related code if it is not specified', () => {
+    const code = loadCode('<div>hi</div>')
+    expect(code).not.toMatch('_scopeId')
+    expect(code).not.toMatch('scoped-style-loader')
+  })
+
+  it('inject scoped id and scoped css', () => {
+    const code = loadCode('<div>hi</div>', { style: './style.css' })
+    expect(code).toMatch(/options\._scopeId = 'data-v-[^']+'/)
+    expect(code).toMatch(
+      /require\('!!style-loader!css-loader![^!?]*scoped-style-loader\.js\?id=[^!]+!\.\/style\.css'\)/
+    )
   })
 })
