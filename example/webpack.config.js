@@ -9,7 +9,8 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.html$/, use: '../' }
+      { test: /\.html$/, use: '../' },
+      { enforce: 'post', test: /\.css$/, use: ['style-loader', 'css-loader'] }
     ]
   }
 }

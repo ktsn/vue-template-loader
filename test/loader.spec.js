@@ -90,7 +90,7 @@ describe('vue-template-loader', () => {
     const code = loadCode('<div>hi</div>', { style: './style.css' })
     expect(code).toMatch(/options\._scopeId = 'data-v-[^']+'/)
     expect(code).toMatch(
-      /require\('!!style-loader!css-loader![^!?]*scoped-style-loader\.js\?id=[^!]+!\.\/style\.css'\)/
+      /require\('[^!?]*scoped-style-loader\.js\?id=[^!]+!\.\/style\.css'\)/
     )
   })
 })
