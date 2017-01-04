@@ -31,7 +31,8 @@ function mockRender (options, data = {}) {
 function load (data) {
   return requireFromString(loader.call({
     cacheable: () => {},
-    options: {}
+    options: {},
+    request: ''
   }, data))
 }
 
