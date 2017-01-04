@@ -4,7 +4,7 @@ const Vue = require('vue')
 const Component = require('vue-class-component').default
 
 function mockRender (options, data = {}) {
-  return options.render.call(Object.assign({
+  const mock = {
     _c (tag, data, children) {
       if (Array.isArray(data)) {
         children = data
@@ -25,7 +25,15 @@ function mockRender (options, data = {}) {
     _s (str) {
       return String(str)
     }
-  }, data))
+  }
+
+  Object.defineProperty(mock, '_self', {
+    get () {
+      return this
+    }
+  })
+
+  return options.render.call(Object.assign(mock, data))
 }
 
 function loadCode(data, { style } = {}) {
