@@ -74,13 +74,13 @@ describe('vue-template-loader', () => {
 
   it('does not inject style related code if it is not specified', () => {
     const code = loadCode('<div>hi</div>')
-    expect(code).not.toMatch('_scopedId')
+    expect(code).not.toMatch('_scopeId')
     expect(code).not.toMatch('scoped-style-loader')
   })
 
   it('inject scoped id and scoped css', () => {
     const code = loadCode('<div>hi</div>', { style: './style.css' })
-    expect(code).toMatch(/options\._scopedId = 'data-v-[^']+'/)
+    expect(code).toMatch(/options\._scopeId = 'data-v-[^']+'/)
     expect(code).toMatch(
       /require\('!!style-loader!css-loader!vue-template-loader\/lib\/scoped-style-loader\.js\?id=[^!]+!\.\/style\.css'\)/
     )
