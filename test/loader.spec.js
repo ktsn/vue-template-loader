@@ -28,12 +28,16 @@ function mockRender (options, data = {}) {
   }, data))
 }
 
-function load (data) {
-  return requireFromString(loader.call({
+function loadCode(data, { style } = {}) {
+  return loader.call({
     cacheable: () => {},
     options: {},
-    request: ''
-  }, data))
+    request: 'foo.html' + (style ? `?style=${style}` : '')
+  }, data)
+}
+
+function load (data, options) {
+  return requireFromString(loadCode(data, options))
 }
 
 describe('vue-template-loader', () => {
@@ -66,5 +70,19 @@ describe('vue-template-loader', () => {
 
     const vnode = mockRender(Comp.options)
     expect(vnode.children[0].children[0]).toBe('hi')
+  })
+
+  it('does not inject style related code if it is not specified', () => {
+    const code = loadCode('<div>hi</div>')
+    expect(code).not.toMatch('_scopedId')
+    expect(code).not.toMatch('scoped-style-loader')
+  })
+
+  it('inject scoped id and scoped css', () => {
+    const code = loadCode('<div>hi</div>', { style: './style.css' })
+    expect(code).toMatch(/options\._scopedId = 'data-v-[^']+'/)
+    expect(code).toMatch(
+      /require\('!!style-loader!css-loader!vue-template-loader\/lib\/scoped-style-loader\.js\?id=[^!]+!\.\/style\.css'\)/
+    )
   })
 })
