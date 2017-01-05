@@ -83,8 +83,8 @@ If you use this loader with TypeScript, make sure to add a declaration file for 
 declare module '*.html' {
   import Vue = require('vue')
   interface WithRender {
-    (options: Vue.ComponentOptions<Vue>): Vue.ComponentOptions<Vue>
-    (component: typeof Vue): typeof Vue
+    <V extends Vue>(options: Vue.ComponentOptions<V>): Vue.ComponentOptions<V>
+    <V extends typeof Vue>(component: V): V
   }
   const withRender: WithRender
   export = withRender
