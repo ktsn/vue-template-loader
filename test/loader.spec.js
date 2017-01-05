@@ -84,6 +84,7 @@ describe('vue-template-loader', () => {
     const code = loadCode('<div>hi</div>')
     expect(code).not.toMatch('_scopeId')
     expect(code).not.toMatch('scoped-style-loader')
+    expect(code).not.toMatch(/\$style/)
   })
 
   it('inject scoped id and scoped css', () => {
