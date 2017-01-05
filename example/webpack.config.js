@@ -33,7 +33,6 @@ module.exports = {
         use: '../' // vue-template-loader
       },
       {
-        enforce: 'post',
         test: /\.css$/,
         include: /components\/css-modules/,
         use: ['style-loader', 'css-loader?modules']

@@ -9,18 +9,64 @@ In most cases, you should use [vue-loader](https://github.com/vuejs/vue-loader).
 ## Features
 
 - Insert a render function to a component options object
+- vue-loader like scoped css and css modules support
 - HMR support for a template
 - Decorator syntax support (can be used with [vue-class-component](https://github.com/vuejs/vue-class-component) or other class style components)
 
 ## Configuration for webpack
+
+### Loading Template
 
 Just add a loader option for vue-template-loader to your webpack configuration.
 
 ```js
 module.exports = {
   module: {
-    loaders: [
-      { test: /\.html$/, loader: 'vue-template-loader' }
+    rules: [
+      { test: /\.html$/, use: 'vue-template-loader' }
+    ]
+  }
+}
+```
+
+### Loading Scoped Styles
+
+You need to specify scoped flag and loaders for style files such as `style-loader` and `css-loader`. Note that they must be `enforce: post` to inject scope id into styles before they are processed by them.
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        use: 'vue-template-loader?scoped' // add `scoped` flag
+      },
+      {
+        enforce: 'post', // required
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+    ]
+  }
+}
+```
+
+### Loading CSS Modules
+
+All what you have to do is enable `modules` flag of `css-loader`. vue-template-loader will add `$style` property and you can use hashed classes through it.
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        use: 'vue-template-loader'
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader?modules'] // Enable CSS Modules
+      }
     ]
   }
 }
@@ -38,11 +84,11 @@ Write a template of Vue component as html.
 </div>
 ```
 
-Import it as a function and pass a component option to the function.
+Import it as a function and pass a component option to the function. If you also would like to load a style file, add `style` query and specify the style file path.
 
 ```js
 // app.js
-import withRender from './app.html'
+import withRender from './app.html?style=./app.css'
 
 export default withRender({
   data () {
