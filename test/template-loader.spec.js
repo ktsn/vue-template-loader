@@ -1,5 +1,5 @@
 const requireFromString = require('require-from-string')
-const loader = require('../lib')
+const loader = require('../lib/template-loader')
 const Vue = require('vue')
 const Component = require('vue-class-component').default
 

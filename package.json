@@ -2,7 +2,7 @@
   "name": "vue-template-loader",
   "version": "0.2.0",
   "description": "Vue.js 2.0 template loader for webpack",
-  "main": "lib/index.js",
+  "main": "lib/template-loader.js",
   "files": [
     "lib"
   ],
