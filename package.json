@@ -44,6 +44,7 @@
     "eslint": "^3.12.2",
     "eslint-config-ktsn": "^1.0.0",
     "jasmine": "^2.5.2",
+    "loader-utils": "^0.2.16",
     "require-from-string": "^1.2.1",
     "style-loader": "^0.13.1",
     "vue": "^2.1.8",
