@@ -1,5 +1,5 @@
 const requireFromString = require('require-from-string')
-const loader = require('../lib')
+const loader = require('../lib/template-loader')
 const Vue = require('vue')
 const Component = require('vue-class-component').default
 
@@ -36,10 +36,11 @@ function mockRender (options, data = {}) {
   return options.render.call(Object.assign(mock, data))
 }
 
-function loadCode(data, { style } = {}) {
+function loadCode(data, { style, query = '' } = {}) {
   return loader.call({
     cacheable: () => {},
     options: {},
+    query,
     request: 'foo.html' + (style ? `?style=${style}` : '')
   }, data)
 }
@@ -84,13 +85,20 @@ describe('vue-template-loader', () => {
     const code = loadCode('<div>hi</div>')
     expect(code).not.toMatch('_scopeId')
     expect(code).not.toMatch('scoped-style-loader')
+    expect(code).not.toMatch(/\$style/)
+  })
+
+  it('inject normal styles', () => {
+    const code = loadCode('<div>hi</div>', { style: './style.css' })
+    expect(code).not.toMatch('_scopeId')
+    expect(code).toMatch(/require\('\.\/style\.css'\)/)
   })
 
   it('inject scoped id and scoped css', () => {
-    const code = loadCode('<div>hi</div>', { style: './style.css' })
+    const code = loadCode('<div>hi</div>', { style: './style.css', query: '?scoped' })
     expect(code).toMatch(/options\._scopeId = 'data-v-[^']+'/)
     expect(code).toMatch(
-      /require\('!!style-loader!css-loader![^!?]*scoped-style-loader\.js\?id=[^!]+!\.\/style\.css'\)/
+      /require\('[^!?]*scoped-style-loader\.js\?id=[^!]+!\.\/style\.css'\)/
     )
   })
 })
