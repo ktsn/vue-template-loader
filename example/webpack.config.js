@@ -9,8 +9,21 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.html$/, use: '../' },
-      { enforce: 'post', test: /\.css$/, use: ['style-loader', 'css-loader'] }
+      {
+        test: /\.html$/, use: '../' // vue-template-loader
+      },
+      {
+        enforce: 'post',
+        test: /\.css$/,
+        exclude: /components\/css-modules/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        enforce: 'post',
+        test: /\.css$/,
+        include: /components\/css-modules/,
+        use: ['style-loader', 'css-loader?modules']
+      }
     ]
   }
 }
