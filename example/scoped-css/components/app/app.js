@@ -1,13 +1,9 @@
 import template from './app.html?style=./app.css'
-import CssModules from '../css-modules/css-modules'
 
 export default template({
   data () {
     return {
-      message: 'Hi'
+      message: 'This style should be scoped'
     }
-  },
-  components: {
-    CssModules
   }
 })
