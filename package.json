@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/ktsn/vue-template-loader#readme",
   "scripts": {
-    "example": "./example/build.sh",
+    "examples": "./examples/build.sh",
     "lint": "eslint lib test",
     "test": "npm run lint && jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
     "prepublish": "npm run test"
