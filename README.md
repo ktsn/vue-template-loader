@@ -29,6 +29,39 @@ module.exports = {
 }
 ```
 
+### Asserts Handling
+
+You can transform an asset path in template to `require` expression that the webpack can handle. For example, if you would like to process image file specified on `src` attributes of `<img>` element, you should set `transformToRequire` option.
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        loader: 'vue-template-loader',
+        options: {
+          transformToRequire: {
+            // The key should be element name,
+            // the value should be attribute name or its array
+            img: 'src'
+          }
+        }
+      },
+
+      // Make sure to add the loader that can process the asset files
+      {
+        test: /\.(png|jpg)/,
+        loader: 'file-loader',
+        options: {
+          // ...
+        }
+      }
+    ]
+  }
+}
+```
+
 ### Loading Scoped Styles
 
 You need to specify scoped flag and loaders for style files such as `style-loader` and `css-loader`. Note that they must be `enforce: post` to inject scope id into styles before they are processed by them.
@@ -39,7 +72,10 @@ module.exports = {
     rules: [
       {
         test: /\.html$/,
-        use: 'vue-template-loader?scoped' // add `scoped` flag
+        loader: 'vue-template-loader',
+        options: {
+          scoped: true // add `scoped` flag
+        }
       },
       {
         enforce: 'post', // required
