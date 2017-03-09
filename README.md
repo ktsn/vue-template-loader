@@ -108,6 +108,32 @@ module.exports = {
 }
 ```
 
+### Disabling HMR
+
+By default Hot Module Replacement is disabled in following situations:
+
+ * Webpack `target` is `node`
+ * Webpack doesn't minify the code 
+ * `process.env.NODE_ENV !== 'production'`
+  
+You may use `hmr: false` option to disable HMR explicitly for any other situation.
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        loader: 'vue-template-loader',
+        options: {
+          hmr: false // disables Hot Modules Replacement
+        }
+      }
+    ]
+  }
+}
+```
+
 ## Example
 
 Write a template of Vue component as html.
