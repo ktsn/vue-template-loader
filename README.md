@@ -113,8 +113,8 @@ module.exports = {
 By default Hot Module Replacement is disabled in following situations:
 
  * Webpack `target` is `node`
- * Webpack doesn't minify the code 
- * `process.env.NODE_ENV !== 'production'`
+ * Webpack minifies the code
+ * `process.env.NODE_ENV === 'production'`
   
 You may use `hmr: false` option to disable HMR explicitly for any other situation.
 
