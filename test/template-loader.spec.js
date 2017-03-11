@@ -36,7 +36,7 @@ function mockRender (options, data = {}) {
   return options.render.call(Object.assign(mock, data))
 }
 
-function loadCode(data, { style, query = '' } = {}) {
+function loadCode(data, { style, query = {}} = {}) {
   return loader.call({
     cacheable: () => {},
     options: {},
@@ -95,10 +95,22 @@ describe('vue-template-loader', () => {
   })
 
   it('inject scoped id and scoped css', () => {
-    const code = loadCode('<div>hi</div>', { style: './style.css', query: '?scoped' })
+    const code = loadCode('<div>hi</div>', { style: './style.css', query: { scoped: true }})
     expect(code).toMatch(/options\._scopeId = 'data-v-[^']+'/)
     expect(code).toMatch(
       /require\('[^!?]*scoped-style-loader\.js\?id=[^!]+!\.\/style\.css'\)/
     )
+  })
+
+  it('has the code for HMR', () => {
+    const code = loadCode('<div>hi</div>')
+    expect(code).toMatch('vue-hot-reload-api')
+    expect(code).toMatch('module.hot')
+  })
+
+  it('disable HMR by option', () => {
+    const code = loadCode('<div>hi</div>', { query: { hmr: false }})
+    expect(code).not.toMatch('vue-hot-reload-api')
+    expect(code).not.toMatch('module.hot')
   })
 })
