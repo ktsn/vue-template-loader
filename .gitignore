@@ -1,2 +1,2 @@
 node_modules/
-/example/__build__.js
+/examples/*/__build__*
