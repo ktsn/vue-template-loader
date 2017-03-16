@@ -1,0 +1,21 @@
+.wrapper {
+  margin: 0 auto;
+  width: 800px;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto;
+
+  &_author {
+    display: block;
+    margin-top: -20px;
+    color: #aaa;
+    text-align: right;
+  }
+}
+
+.title {
+  font-weight: normal;
+  text-align: center;
+}
