@@ -199,7 +199,7 @@ declare module '*.html' {
 }
 ```
 
-## Temlates
+## Templates
 
 There are vue-cli templates using vue-template-loader (Thanks to @Toilal).
 
