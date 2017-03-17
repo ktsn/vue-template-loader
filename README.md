@@ -115,7 +115,7 @@ By default Hot Module Replacement is disabled in following situations:
  * Webpack `target` is `node`
  * Webpack minifies the code
  * `process.env.NODE_ENV === 'production'`
-  
+
 You may use `hmr: false` option to disable HMR explicitly for any other situation.
 
 ```js
@@ -198,6 +198,13 @@ declare module '*.html' {
   export = withRender
 }
 ```
+
+## Temlates
+
+There are vue-cli templates using vue-template-loader (Thanks to @Toilal).
+
+- [Toilal/vue-ts-hmr-std-files](https://github.com/Toilal/vue-ts-hmr-std-files)
+- [Toilal/vue-webpack-template](https://github.com/Toilal/vue-webpack-template)
 
 ## License
 
