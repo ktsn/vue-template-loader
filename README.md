@@ -167,6 +167,13 @@ export default withRender({
 })
 ```
 
+You can override the `scoped` option directly inside the import query string.
+
+```js
+// app.js
+import withRender from './app.html?scoped=false&style=./app.css'
+```
+
 You can use decorator syntax for any class style components.
 
 ```js
