@@ -38,6 +38,7 @@ function mockRender (options, data = {}) {
 
 function loadCode(data, { style, query = {}} = {}) {
   return loader.call({
+    resourcePath: '/path/to/test.html',
     cacheable: () => {},
     options: {},
     query,
