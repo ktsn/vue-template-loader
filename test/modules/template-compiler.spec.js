@@ -1,3 +1,4 @@
+const SourceMapConsumer = require('source-map').SourceMapConsumer
 const compile = require('../../lib/modules/template-compiler')
 
 describe('template-compiler', () => {
@@ -22,5 +23,19 @@ describe('template-compiler', () => {
       }
     })
     expect(actual.code).toMatch(/require\("foo\.png"\)/)
+  })
+
+  it('generates source map', () => {
+    const src = '<p>Hello</p>'
+    const actual = compile(src, {
+      sourceMap: true,
+      fileName: 'test.html'
+    })
+    expect(actual.map).toBeTruthy()
+
+    const smc = new SourceMapConsumer(actual.map)
+    const pos = smc.originalPositionFor({ line: 1, column: actual.code.length })
+    expect(pos.line).toBe(1)
+    expect(pos.column).toBe(0)
   })
 })
