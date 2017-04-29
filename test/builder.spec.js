@@ -51,25 +51,26 @@ describe('Builder', () => {
 
     const b = new Builder()
     b.addLine('var a = "a"')
-    b.enterBlock('function foo () {', '}', () => {
-      b.addLine('var render = function () { return "test" }', map)
-      b.addLine('var b = "b"')
-    })
+    b.addLine('var render = function () { return "test" }', map)
+    b.addLine('var b = "b"')
 
     const result = b.generate()
     const smc = new SourceMapConsumer(result.map)
-    const pos = smc.originalPositionFor({ line: 3, column: 0 })
 
     expect(result.code).toBe(code([
       'var a = "a"',
-      'function foo () {',
-      '  var render = function () { return "test" }',
-      '  var b = "b"',
-      '}'
+      'var render = function () { return "test" }',
+      'var b = "b"'
     ]))
 
+    let pos = smc.originalPositionFor({ line: 2, column: 0 })
     expect(pos.source).toBe('test.html')
     expect(pos.line).toBe(1)
     expect(pos.column).toBe(0)
+
+    pos = smc.originalPositionFor({ line: 3, column: 0 })
+    expect(pos.source).toBe(null)
+    expect(pos.line).toBe(null)
+    expect(pos.column).toBe(null)
   })
 })
