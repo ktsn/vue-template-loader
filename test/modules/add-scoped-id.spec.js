@@ -92,53 +92,11 @@ describe('add scoped id module', () => {
     })
   })
 
-  it('should not scope when there is :global pseudo class in ancestors', done => {
+  it('should add scope attribute the selector before >>> combinator', done => {
     test(
       'data-v-1',
-      [
-        ':global p {}',
-        ':global ul li {}'
-      ].join('\n'),
-      [
-        ' p {}',
-        ' ul li {}'
-      ].join('\n')
-    ).then(done)
-  })
-
-  it('should not scope selector having :global pseudo class', done => {
-    test(
-      'data-v-1',
-      '.foo:global {}',
-      '.foo {}'
-    ).then(done)
-  })
-
-  it('should scope parent node of :global pseudo class', done => {
-    test(
-      'data-v-1',
-      [
-        '.foo .bar :global .baz {}',
-        '.foo .bar:global {}'
-      ].join('\n'),
-      [
-        '.foo .bar[data-v-1]  .baz {}',
-        '.foo[data-v-1] .bar {}'
-      ].join('\n')
-    ).then(done)
-  })
-
-  it('should not add scope attribute to combinator', done => {
-    test(
-      'data-v-1',
-      [
-        '.foo + :global .bar {}',
-        '.foo :global > .bar {}'
-      ].join('\n'),
-      [
-        '.foo[data-v-1] +  .bar {}',
-        '.foo[data-v-1]  > .bar {}'
-      ].join('\n')
+      '.foo .bar >>> .baz {}',
+      '.foo .bar[data-v-1] .baz {}'
     ).then(done)
   })
 })
@@ -148,14 +106,8 @@ function test (id, input, expected, map) {
     sourceMap: !!map,
     fileName: 'test.css',
     prevMap: map === true ? null : map
-  }).then(
-    result => {
-      expect(result.css).toBe(expected)
-      return result
-    },
-    err => {
-      console.error(err)
-      throw err
-    }
-  )
+  }).then(result => {
+    expect(result.css).toBe(expected)
+    return result
+  })
 }
