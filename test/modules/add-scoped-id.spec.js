@@ -92,20 +92,52 @@ describe('add scoped id module', () => {
     })
   })
 
-  it('should not scope when :global pseudo class is included', done => {
+  it('should not scope when there is :global pseudo class in ancestors', done => {
     test(
       'data-v-1',
       [
         ':global p {}',
-        'div :global p {}',
-        'h1 :global {}',
-        'ul:global {}'
+        ':global ul li {}'
       ].join('\n'),
       [
         ' p {}',
-        'div  p {}',
-        'h1  {}',
-        'ul {}'
+        ' ul li {}'
+      ].join('\n')
+    ).then(done)
+  })
+
+  it('should not scope selector having :global pseudo class', done => {
+    test(
+      'data-v-1',
+      '.foo:global {}',
+      '.foo {}'
+    ).then(done)
+  })
+
+  it('should scope parent node of :global pseudo class', done => {
+    test(
+      'data-v-1',
+      [
+        '.foo .bar :global .baz {}',
+        '.foo .bar:global {}'
+      ].join('\n'),
+      [
+        '.foo .bar[data-v-1]  .baz {}',
+        '.foo[data-v-1] .bar {}'
+      ].join('\n')
+    ).then(done)
+  })
+
+  it('should not add scope attribute to combinator', done => {
+    test(
+      'data-v-1',
+      [
+        '.foo + :global .bar {}',
+        '.foo :global > .bar {}'
+      ].join('\n'),
+      [
+        '.foo[data-v-1] +  .bar {}',
+        '.foo[data-v-1]  > .bar {}'
       ].join('\n')
     ).then(done)
   })
