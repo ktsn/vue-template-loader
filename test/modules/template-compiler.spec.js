@@ -33,7 +33,7 @@ describe('template-compiler', () => {
     })
     expect(actual.map).toBeTruthy()
 
-    const smc = new SourceMapConsumer(JSON.parse(actual.map))
+    const smc = new SourceMapConsumer(actual.map)
     const pos = smc.originalPositionFor({ line: 1, column: actual.code.length })
     expect(pos.line).toBe(1)
     expect(pos.column).toBe(0)

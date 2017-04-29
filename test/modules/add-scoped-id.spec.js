@@ -37,7 +37,7 @@ describe('add scoped id module', () => {
     ).then(result => {
       expect(result.map).toBeTruthy()
 
-      const smc = new SourceMapConsumer(result.map.toJSON())
+      const smc = new SourceMapConsumer(result.map)
       let pos = smc.originalPositionFor({ line: 1, column: 17 })
       expect(pos.line).toBe(1)
       expect(pos.column).toBe(0)
@@ -83,7 +83,7 @@ describe('add scoped id module', () => {
     ).then(result => {
       expect(result.map).toBeTruthy()
 
-      const smc = new SourceMapConsumer(result.map.toJSON())
+      const smc = new SourceMapConsumer(result.map)
       const pos = smc.originalPositionFor({ line: 2, column: 3 })
       expect(pos.line).toBe(3)
       expect(pos.column).toBe(4)
