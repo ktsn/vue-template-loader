@@ -87,6 +87,26 @@ module.exports = {
 }
 ```
 
+#### `>>>` combinator
+
+There are cases you may want to style children components. e.g. using a third party component. In such cases, you can use `>>>` combinator to apply styles to any descendant elements of a scoped styled element.
+
+Input:
+
+```css
+.foo >>> .bar {
+  color: red;
+}
+```
+
+Output:
+
+```css
+.foo[data-v-4fd8d954] .bar {
+  color: red
+}
+```
+
 ### Loading CSS Modules
 
 All what you have to do is enable `modules` flag of `css-loader`. vue-template-loader will add `$style` property and you can use hashed classes through it.
