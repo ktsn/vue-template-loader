@@ -32,9 +32,10 @@ describe('add scoped id module', () => {
     test(
       'data-v-1',
       'div p {}',
-      'div p[data-v-1] {}'
+      'div p[data-v-1] {}',
+      true
     ).then(result => {
-      expect(result.map).not.toBeFalsy()
+      expect(result.map).toBeTruthy()
 
       const smc = new SourceMapConsumer(JSON.parse(result.map))
       let pos = smc.originalPositionFor({ line: 1, column: 17 })
@@ -80,10 +81,10 @@ describe('add scoped id module', () => {
       ].join('\n'),
       map
     ).then(result => {
-      expect(result.map).not.toBeFalsy()
+      expect(result.map).toBeTruthy()
 
       const smc = new SourceMapConsumer(JSON.parse(result.map))
-      const pos = smc.originalPositionFor({ line: 2, column: 2 })
+      const pos = smc.originalPositionFor({ line: 2, column: 3 })
       expect(pos.line).toBe(3)
       expect(pos.column).toBe(4)
 
@@ -93,15 +94,18 @@ describe('add scoped id module', () => {
 })
 
 function test (id, input, expected, map) {
-  return addScopedId(id, 'test.css', input, map)
-    .then(
-      result => {
-        expect(result.css).toBe(expected)
-        return result
-      },
-      err => {
-        console.error(err)
-        throw err
-      }
-    )
+  return addScopedId(id, input, {
+    sourceMap: !!map,
+    fileName: 'test.css',
+    prevMap: map === true ? null : map
+  }).then(
+    result => {
+      expect(result.css).toBe(expected)
+      return result
+    },
+    err => {
+      console.error(err)
+      throw err
+    }
+  )
 }
