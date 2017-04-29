@@ -91,6 +91,24 @@ describe('add scoped id module', () => {
       done()
     })
   })
+
+  it('should not scope when :global pseudo class is included', done => {
+    test(
+      'data-v-1',
+      [
+        ':global p {}',
+        'div :global p {}',
+        'h1 :global {}',
+        'ul:global {}'
+      ].join('\n'),
+      [
+        ' p {}',
+        'div  p {}',
+        'h1  {}',
+        'ul {}'
+      ].join('\n')
+    ).then(done)
+  })
 })
 
 function test (id, input, expected, map) {
