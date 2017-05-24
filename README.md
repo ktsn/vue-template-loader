@@ -2,22 +2,22 @@
 
 Vue.js 2.0 template loader for webpack
 
-This loader is just pre-compile a template by using [vue-template-compiler](https://www.npmjs.com/package/vue-template-compiler) and provide a function that can inject render function to a component options object.  
+This loader pre-compiles a html template into a render function using the [vue-template-compiler](https://www.npmjs.com/package/vue-template-compiler). Each html file is transformed into a function that takes a vue component options object and injects a render function.
 
-In most cases, you should use [vue-loader](https://github.com/vuejs/vue-loader).
+In most cases, [vue-loader](https://github.com/vuejs/vue-loader) is recommended over this loader.
 
 ## Features
 
-- Insert a render function to a component options object
-- vue-loader like scoped css and css modules support
-- HMR support for a template
+- Transforms a html template into a render function
+- Supports scoped css and css modules (similar to vue-loader)
+- HMR support for templates
 - Decorator syntax support (can be used with [vue-class-component](https://github.com/vuejs/vue-class-component) or other class style components)
 
-## Configuration for webpack
+## Webpack Configuration
 
-### Loading Template
+### Loading a Html Template
 
-Just add a loader option for vue-template-loader to your webpack configuration.
+Add vue-template-loader as a loader to your webpack configuration.
 
 ```js
 module.exports = {
@@ -29,9 +29,9 @@ module.exports = {
 }
 ```
 
-### Asserts Handling
+### Asset Transforms
 
-You can transform an asset path in template to `require` expression that the webpack can handle. For example, if you would like to process image file specified on `src` attributes of `<img>` element, you should set `transformToRequire` option.
+To transform asset paths in your templates to `require` expressions that webpack can handle, configure the `transformToRequire` option. For example, if you would like webpack to process the image files in the `src` attribute of `<img>` elements:
 
 ```js
 module.exports = {
@@ -42,14 +42,14 @@ module.exports = {
         loader: 'vue-template-loader',
         options: {
           transformToRequire: {
-            // The key should be element name,
-            // the value should be attribute name or its array
+            // The key should be an element name,
+            // the value should be an attribute name or an array of attribute names
             img: 'src'
           }
         }
       },
 
-      // Make sure to add the loader that can process the asset files
+      // Make sure to add a loader that can process the asset files
       {
         test: /\.(png|jpg)/,
         loader: 'file-loader',
@@ -64,7 +64,15 @@ module.exports = {
 
 ### Loading Scoped Styles
 
-You need to specify scoped flag and loaders for style files such as `style-loader` and `css-loader`. Note that they must be `enforce: post` to inject scope id into styles before they are processed by them.
+For an explanation of scoped styles, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/scoped-css.html). 
+
+Html and style files need to be imported using the loader syntax: `require("./file.html?style=./file.css")`. You also need modify your webpack config as follows:
+- Set `scoped: true` in the vue-template-loader options 
+- Mark some of your style loaders (usually `style-loader` and `css-loader`) as post-loaders (by setting `enforce: 'post'`). 
+
+**Logic for what to mark as a post-loader:** When you import a template and styles using the syntax `require("./file.html?style=./file.css")`, `vue-template-loader` injects an `inline` webpack loader that modifies the style file to include [scope-id] selectors. Webpack loaders run in the order `normal-loaders` -> `inline-loaders` -> `post-loaders`, so any loaders you want to run before the inline loader should be `normal-loaders`, and anything you want to run after the inline loader should be `post-loaders` (i.e. marked with `enforce: 'post'`).
+
+Typically you will want to leave loaders that compile to css (like less, sass and postcss transpilers) as normal loaders, so they run before the [scope-id] injection, and mark loaders that transform css into a format for webpack consumption (like `style-loader` and `css-loader`) with `enforce: 'post'`.
 
 ```js
 module.exports = {
@@ -78,7 +86,13 @@ module.exports = {
         }
       },
       {
-        enforce: 'post', // required
+        // Loaders that compile css (like postcss, less or sass) should be left as normal loaders
+        test: /\.css$/,
+        use: [ 'e.g. postcss-loader/less-loader/sass-loader' ]
+      }
+      {
+        // Loaders that transform css into a format for webpack consumption should be post loaders (enforce: 'post')
+        enforce: 'post',
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       }
@@ -89,7 +103,7 @@ module.exports = {
 
 #### `>>>` combinator
 
-There are cases you may want to style children components. e.g. using a third party component. In such cases, you can use `>>>` combinator to apply styles to any descendant elements of a scoped styled element.
+There are cases where you may want to style children components e.g. using a third party component. In such cases, you can use the `>>>` (/deep/) combinator to apply styles to any descendant elements of a scoped styled element.
 
 Input:
 
@@ -107,9 +121,22 @@ Output:
 }
 ```
 
+If you are using less, note that it does not yet support the `>>>` operator, but you can use:
+```less
+@deep: ~">>>";
+
+.foo @{deep} .bar {
+  color: red;
+}
+```
+
 ### Loading CSS Modules
 
-All what you have to do is enable `modules` flag of `css-loader`. vue-template-loader will add `$style` property and you can use hashed classes through it.
+For an explanation of CSS modules, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/css-modules.html). 
+
+Html and style files need to be imported using the loader syntax: `require("./file.html?style=./file.css")`. You also need to enable the `modules` flag of `css-loader`. 
+
+vue-template-loader will add the `$style` property to your view model and you can use hashed classes through it.
 
 ```js
 module.exports = {
@@ -130,13 +157,13 @@ module.exports = {
 
 ### Disabling HMR
 
-By default Hot Module Replacement is disabled in following situations:
+By default Hot Module Replacement is disabled in the following situations:
 
  * Webpack `target` is `node`
  * Webpack minifies the code
  * `process.env.NODE_ENV === 'production'`
 
-You may use `hmr: false` option to disable HMR explicitly for any other situation.
+You may use the `hmr: false` option to disable HMR explicitly for any other situation.
 
 ```js
 module.exports = {
@@ -156,7 +183,7 @@ module.exports = {
 
 ## Example
 
-Write a template of Vue component as html.
+Write a template for a Vue component using html.
 
 ```html
 <!-- app.html -->
@@ -166,7 +193,7 @@ Write a template of Vue component as html.
 </div>
 ```
 
-Import it as a function and pass a component option to the function. If you also would like to load a style file, add `style` query and specify the style file path.
+Import it as a function and pass a component option to the function. If you would like to load a style file, add the `style` query and specify the style file path.
 
 ```js
 // app.js
@@ -205,7 +232,7 @@ export default class App extends Vue {
 }
 ```
 
-If you use this loader with TypeScript, make sure to add a declaration file for html file into your project.
+If you use this loader with TypeScript, make sure to add a declaration file for html files into your project.
 
 ```ts
 declare module '*.html' {
