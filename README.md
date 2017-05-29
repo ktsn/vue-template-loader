@@ -2,7 +2,7 @@
 
 Vue.js 2.0 template loader for webpack
 
-This loader pre-compiles a html template into a render function using the [vue-template-compiler](https://www.npmjs.com/package/vue-template-compiler). Each html file is transformed into a function that takes a vue component options object and injects a render function.
+This loader pre-compiles a html template into a render function using the [vue-template-compiler](https://www.npmjs.com/package/vue-template-compiler). Each html file is transformed into a function that takes a vue component options object and injects a render function, styles and HMR support.
 
 In most cases, [vue-loader](https://github.com/vuejs/vue-loader) is recommended over this loader.
 
@@ -42,8 +42,8 @@ module.exports = {
         loader: 'vue-template-loader',
         options: {
           transformToRequire: {
-            // The key should be an element name,
-            // the value should be an attribute name or an array of attribute names
+            // The key should be an element name
+            // The value should be an attribute name or an array of attribute names
             img: 'src'
           }
         }
@@ -66,34 +66,36 @@ module.exports = {
 
 For an explanation of scoped styles, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/scoped-css.html). 
 
-Html and style files need to be imported using the loader syntax: `require("./file.html?style=./file.css")`. You also need modify your webpack config as follows:
+Html and style files need to be imported using `import withRender from './app.html?style=./app.css'`. 
+
+You also need modify your webpack config as follows:
 - Set `scoped: true` in the vue-template-loader options 
 - Mark some of your style loaders (usually `style-loader` and `css-loader`) as post-loaders (by setting `enforce: 'post'`). 
 
-**Logic for what to mark as a post-loader:** When you import a template and styles using the syntax `require("./file.html?style=./file.css")`, `vue-template-loader` injects an `inline` webpack loader that modifies the style file to include [scope-id] selectors. Webpack loaders run in the order `normal-loaders` -> `inline-loaders` -> `post-loaders`, so any loaders you want to run before the inline loader should be `normal-loaders`, and anything you want to run after the inline loader should be `post-loaders` (i.e. marked with `enforce: 'post'`).
+**Logic for what to mark as a post-loader:** vue-template-loader injects an _inline_ webpack loader into your loader pipeline to modify your style files to include [scope-id] selectors. Webpack loaders run in the order normal -> inline -> post, so any loaders you want to run before the inline loader should be normal loaders, and anything you want to run after the inline loader should be post loaders (i.e. marked with `enforce: 'post'`).
 
-Typically you will want to leave loaders that compile to css (like less, sass and postcss transpilers) as normal loaders, so they run before the [scope-id] injection, and mark loaders that transform css into a format for webpack consumption (like `style-loader` and `css-loader`) with `enforce: 'post'`.
+Typically you will want to leave loaders that compile to css (like less, sass and postcss transpilers) as normal loaders, so they run before the [scope-id] injection. Loaders that transform css into a format for webpack consumption (like `style-loader` and `css-loader`) should be post loaders (marked as `enforce: 'post'`).
 
 ```js
 module.exports = {
   module: {
     rules: [
       {
-        test: /\.html$/,
-        loader: 'vue-template-loader',
-        options: {
-          scoped: true // add `scoped` flag
-        }
-      },
-      {
-        // Loaders that compile css (like postcss, less or sass) should be left as normal loaders
-        test: /\.css$/,
-        use: [ 'e.g. postcss-loader/less-loader/sass-loader' ]
-      }
-      {
         // Loaders that transform css into a format for webpack consumption should be post loaders (enforce: 'post')
         enforce: 'post',
         test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      // We needed to split the rule for .scss files across two rules
+      {
+        // The loaders that compile to css (postcss and sass in this case) should be left as normal loaders
+        test: /\.scss$/,
+        use: ['postcss-loader', 'sass-loader']
+      },
+      {
+        // The loaders that format css for webpack consumption should be post loaders
+        enforce: 'post',
+        test: /\.scss$/,
         use: ['style-loader', 'css-loader']
       }
     ]
@@ -134,7 +136,7 @@ If you are using less, note that it does not yet support the `>>>` operator, but
 
 For an explanation of CSS modules, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/css-modules.html). 
 
-Html and style files need to be imported using the loader syntax: `require("./file.html?style=./file.css")`. You also need to enable the `modules` flag of `css-loader`. 
+Html and style files need to be imported using the loader syntax: `import withRender from './app.html?style=./app.css'`. You also need to enable the `modules` flag of `css-loader`. 
 
 vue-template-loader will add the `$style` property to your view model and you can use hashed classes through it.
 
@@ -232,6 +234,8 @@ export default class App extends Vue {
 }
 ```
 
+### Typescript
+
 If you use this loader with TypeScript, make sure to add a declaration file for html files into your project.
 
 ```ts
@@ -244,6 +248,17 @@ declare module '*.html' {
   const withRender: WithRender
   export = withRender
 }
+```
+
+Unfortunately, this syntax won't work when importing styles using `import withRender from './app.html?style=./app.css'` as two wildcards (*) are not allowed. In that case, you can sacrifice type safety and use the syntax `require('./app.html?style=./app.css')` with a standard require definition:
+
+```ts
+declare var require: {
+    (path: string): any;
+    <T>(path: string): T;
+    (paths: string[], callback: (...modules: any[]) => void): void;
+    ensure: (paths: string[], callback: (require: <T>(path: string) => T) => void) => void;
+};
 ```
 
 ## Templates
