@@ -236,7 +236,7 @@ export default class App extends Vue {
 
 ### Typescript
 
-If you use this loader with TypeScript, make sure to add a declaration file for html files into your project.
+If you use this loader with TypeScript, make sure to add a declaration file for html files into your project. (If you want to load style files via query string, you need to replace `*.html` with `*.css`)
 
 ```ts
 declare module '*.html' {
@@ -248,17 +248,6 @@ declare module '*.html' {
   const withRender: WithRender
   export = withRender
 }
-```
-
-Unfortunately, this syntax won't work when importing styles using `import withRender from './app.html?style=./app.css'` as two wildcards (*) are not allowed. In that case, you can sacrifice type safety and use the syntax `require('./app.html?style=./app.css')` with a standard require definition:
-
-```ts
-declare var require: {
-    (path: string): any;
-    <T>(path: string): T;
-    (paths: string[], callback: (...modules: any[]) => void): void;
-    ensure: (paths: string[], callback: (require: <T>(path: string) => T) => void) => void;
-};
 ```
 
 ## Templates
