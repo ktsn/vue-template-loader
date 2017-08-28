@@ -252,9 +252,8 @@ declare module '*.html' {
 
 ## Templates
 
-There are vue-cli templates using vue-template-loader (Thanks to @Toilal).
+There is vue-cli template using vue-template-loader (Thanks to @Toilal).
 
-- [Toilal/vue-ts-hmr-std-files](https://github.com/Toilal/vue-ts-hmr-std-files)
 - [Toilal/vue-webpack-template](https://github.com/Toilal/vue-webpack-template)
 
 ## License
