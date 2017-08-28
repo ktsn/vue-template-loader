@@ -64,13 +64,13 @@ module.exports = {
 
 ### Loading Scoped Styles
 
-For an explanation of scoped styles, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/scoped-css.html). 
+For an explanation of scoped styles, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/scoped-css.html).
 
-Html and style files need to be imported using `import withRender from './app.html?style=./app.css'`. 
+Html and style files need to be imported using `import withRender from './app.html?style=./app.css'`.
 
 You also need modify your webpack config as follows:
-- Set `scoped: true` in the vue-template-loader options 
-- Mark some of your style loaders (usually `style-loader` and `css-loader`) as post-loaders (by setting `enforce: 'post'`). 
+- Set `scoped: true` in the vue-template-loader options
+- Mark some of your style loaders (usually `style-loader` and `css-loader`) as post-loaders (by setting `enforce: 'post'`).
 
 **Logic for what to mark as a post-loader:** vue-template-loader injects an _inline_ webpack loader into your loader pipeline to modify your style files to include [scope-id] selectors. Webpack loaders run in the order normal -> inline -> post, so any loaders you want to run before the inline loader should be normal loaders, and anything you want to run after the inline loader should be post loaders (i.e. marked with `enforce: 'post'`).
 
@@ -134,9 +134,9 @@ If you are using less, note that it does not yet support the `>>>` operator, but
 
 ### Loading CSS Modules
 
-For an explanation of CSS modules, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/css-modules.html). 
+For an explanation of CSS modules, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/css-modules.html).
 
-Html and style files need to be imported using the loader syntax: `import withRender from './app.html?style=./app.css'`. You also need to enable the `modules` flag of `css-loader`. 
+Html and style files need to be imported using the loader syntax: `import withRender from './app.html?style=./app.css'`. You also need to enable the `modules` flag of `css-loader`.
 
 vue-template-loader will add the `$style` property to your view model and you can use hashed classes through it.
 
