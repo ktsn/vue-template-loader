@@ -240,13 +240,13 @@ If you use this loader with TypeScript, make sure to add a declaration file for 
 
 ```ts
 declare module '*.html' {
-  import Vue = require('vue')
+  import Vue, { ComponentOptions } from 'vue'
   interface WithRender {
-    <V extends Vue>(options: Vue.ComponentOptions<V>): Vue.ComponentOptions<V>
+    <V extends Vue>(options: ComponentOptions<V>): ComponentOptions<V>
     <V extends typeof Vue>(component: V): V
   }
   const withRender: WithRender
-  export = withRender
+  export default withRender
 }
 ```
 
