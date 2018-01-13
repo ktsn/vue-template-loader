@@ -6,7 +6,7 @@ const addScopedId = require('../../lib/modules/add-scoped-id')
 describe('add scoped id module', () => {
   it('should add scoped id into the last node for each selector', done => {
     test(
-      'data-v-1',
+      '1',
       'h1, h2 .foo {} h3 {}',
       'h1[data-v-1], h2 .foo[data-v-1] {} h3[data-v-1] {}'
     ).then(done)
@@ -14,7 +14,7 @@ describe('add scoped id module', () => {
 
   it('should not add scoped id into pseudo element/class', done => {
     test(
-      'data-v-1',
+      '1',
       'p::before {} .test:first-child {}',
       'p[data-v-1]::before {} .test[data-v-1]:first-child {}'
     ).then(done)
@@ -22,7 +22,7 @@ describe('add scoped id module', () => {
 
   it('should add scoped id into the selectors in at-rules', done => {
     test(
-      'data-v-1',
+      '1',
       '@media screen { p {} }',
       '@media screen { p[data-v-1] {} }'
     ).then(done)
@@ -30,7 +30,7 @@ describe('add scoped id module', () => {
 
   it('should generate source map', done => {
     test(
-      'data-v-1',
+      '1',
       'div p {}',
       'div p[data-v-1] {}',
       true
@@ -72,7 +72,7 @@ describe('add scoped id module', () => {
     const map = JSON.parse(Base64.decode(m[2]))
 
     test(
-      'data-v-1',
+      '1',
       css,
       [
         'div p[data-v-1] {',
@@ -94,7 +94,7 @@ describe('add scoped id module', () => {
 
   it('should add scope attribute the selector before >>> combinator', done => {
     test(
-      'data-v-1',
+      '1',
       '.foo .bar >>> .baz {}',
       '.foo .bar[data-v-1] .baz {}'
     ).then(done)
