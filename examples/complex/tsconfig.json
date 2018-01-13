@@ -8,8 +8,8 @@
       "es2015",
       "dom"
     ],
+    "strict": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
     "sourceMap": true
   }
 }
