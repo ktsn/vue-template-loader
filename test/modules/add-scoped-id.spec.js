@@ -99,6 +99,35 @@ describe('add scoped id module', () => {
       '.foo .bar[data-v-1] .baz {}'
     ).then(done)
   })
+
+  it('should add scope id to keyframes', done => {
+    const id = 'abc'
+    const input = [
+      '.foo { animation: test 1s; }',
+      '.bar { animation-name: test; animation-duration: 1s; }',
+      '@keyframes test {',
+      '  0% { opacity: 0; }',
+      '  100% { opacity: 1; }',
+      '}',
+      '@-webkit-keyframes test {',
+      '  from { opacity: 0; }',
+      '  to { opacity: 1; }',
+      '}'
+    ].join('\n')
+    const expected = [
+      `.foo[data-v-${id}] { animation: test-${id} 1s; }`,
+      `.bar[data-v-${id}] { animation-name: test-${id}; animation-duration: 1s; }`,
+      `@keyframes test-${id} {`,
+      '  0% { opacity: 0; }',
+      '  100% { opacity: 1; }',
+      '}',
+      `@-webkit-keyframes test-${id} {`,
+      '  from { opacity: 0; }',
+      '  to { opacity: 1; }',
+      '}'
+    ].join('\n')
+    test(id, input, expected).then(done)
+  })
 })
 
 function test (id, input, expected, map) {
