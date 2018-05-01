@@ -40,7 +40,7 @@ describe('template-compiler', () => {
   })
 
   /**
-   * ktsn/vue-template-loader#41 Support uri fragment in transformed require
+   * ktsn/vue-template-loader#49 Support uri fragment in transformed require
    */
   it('supports uri fragment in transformed require', () => {
     const src = //
@@ -56,7 +56,7 @@ describe('template-compiler', () => {
   })
 
   /**
-   * ktsn/vue-template-loader#41 Support uri fragment in transformed require
+   * ktsn/vue-template-loader#49 Support uri fragment in transformed require
    */
   it('when too short uri then empty require', () => {
     const src = //
