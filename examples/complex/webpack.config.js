@@ -1,6 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   context: path.resolve(__dirname),
@@ -26,7 +26,7 @@ module.exports = {
             loader: '../../', // vue-template-loader
             options: {
               scoped: true,
-              transformToRequire: {
+              transformAssetUrls: {
                 img: 'src'
               }
             }
@@ -44,15 +44,15 @@ module.exports = {
       {
         enforce: 'post',
         test: /\.s?css$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: {
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
             loader: 'css-loader',
             options: {
               sourceMap: true
             }
           }
-        })
+        ]
       },
       {
         test: /\.png/,
@@ -64,6 +64,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
-    new ExtractTextPlugin('style.css')
+    new MiniCssExtractPlugin({
+      filename: 'style.css'
+    })
   ]
 }
