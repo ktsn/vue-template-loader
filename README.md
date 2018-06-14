@@ -31,7 +31,7 @@ module.exports = {
 
 ### Asset Transforms
 
-To transform asset paths in your templates to `require` expressions that webpack can handle, configure the `transformToRequire` option. For example, if you would like webpack to process the image files in the `src` attribute of `<img>` elements:
+To transform asset paths in your templates to `require` expressions that webpack can handle, configure the `transformAssetUrls` option. For example, if you would like webpack to process the image files in the `src` attribute of `<img>` elements:
 
 ```js
 module.exports = {
@@ -41,7 +41,7 @@ module.exports = {
         test: /\.html$/,
         loader: 'vue-template-loader',
         options: {
-          transformToRequire: {
+          transformAssetUrls: {
             // The key should be an element name
             // The value should be an attribute name or an array of attribute names
             img: 'src'
