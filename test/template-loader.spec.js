@@ -142,4 +142,9 @@ describe('vue-template-loader', () => {
     expect(originalPos.line).toBe(1)
     expect(originalPos.column).toBe(0)
   })
+
+  it('sets functional', () => {
+    const { code } = loadCode('<div>{{ props.data }}</div>', { query: { functional: true }})
+    expect(code).toMatch('options.functional = true')
+  })
 })
