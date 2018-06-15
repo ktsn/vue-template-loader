@@ -4,32 +4,28 @@ describe('scoped style loader', () => {
   it('should add scoped id into the last node for each selector', done => {
     test(
       '1',
-      'h1, h2 .foo {} h3 {}',
-      'h1[data-v-1], h2 .foo[data-v-1] {\n}\nh3[data-v-1] {\n}'
+      'h1, h2 .foo {} h3 {}'
     ).then(done)
   })
 
   it('should not add scoped id into pseudo element/class', done => {
     test(
       '1',
-      'p::before {} .test:first-child {}',
-      'p[data-v-1]::before {\n}\n.test[data-v-1]:first-child {\n}'
+      'p::before {} .test:first-child {}'
     ).then(done)
   })
 
   it('should add scoped id into the selectors in at-rules', done => {
     test(
       '1',
-      '@media screen { p {} }',
-      '@media screen {\np[data-v-1] {\n}\n}'
+      '@media screen { p {} }'
     ).then(done)
   })
 
   it('should add scope attribute the selector before >>> combinator', done => {
     test(
       '1',
-      '.foo .bar >>> .baz {}',
-      '.foo .bar[data-v-1] .baz {\n}'
+      '.foo .bar >>> .baz {}'
     ).then(done)
   })
 
@@ -47,37 +43,23 @@ describe('scoped style loader', () => {
       '  to { opacity: 1; }',
       '}'
     ].join('\n')
-    const expected = [
-      `.foo[data-v-${id}] { animation: test-data-v-${id} 1s;\n}`,
-      `.bar[data-v-${id}] { animation-name: test-data-v-${id}; animation-duration: 1s;\n}`,
-      `@keyframes test-data-v-${id} {`,
-      '0% { opacity: 0;\n}',
-      '100% { opacity: 1;\n}',
-      '}',
-      `@-webkit-keyframes test-data-v-${id} {`,
-      'from { opacity: 0;\n}',
-      'to { opacity: 1;\n}',
-      '}'
-    ].join('\n')
-    test(id, input, expected).then(done)
+    test(id, input).then(done)
   })
 })
 
-function test (id, input, expected, map) {
+function test (id, input) {
   return new Promise(resolve => {
     loader.call(
       {
         query: { id },
         resourcePath: 'test.css',
-        async: () => (err, css, map) => {
-          expect(err).toBe(null)
-          expect(css.trim()).toBe(expected.trim())
-          resolve({ css, map })
+        async: () => (err, css) => {
+          expect(css).toMatchSnapshot()
+          resolve()
         },
         sourceMap: true
       },
-      input,
-      map === true ? null : map
+      input
     )
   })
 }

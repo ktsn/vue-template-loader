@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue-template-loader disable HMR by option 1`] = `
+"var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(\\"div\\", [_vm._v(\\"hi\\")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = function (_exports) {
+  var options = typeof _exports === 'function'
+    ? _exports.options
+    : _exports
+  options.render = render
+  options.staticRenderFns = staticRenderFns
+  return _exports
+}
+"
+`;
+
+exports[`vue-template-loader does not inject style related code if it is not specified 1`] = `
+"var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(\\"div\\", [_vm._v(\\"hi\\")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = function (_exports) {
+  var options = typeof _exports === 'function'
+    ? _exports.options
+    : _exports
+  options.render = render
+  options.staticRenderFns = staticRenderFns
+  if (module.hot && api) {
+    api.createRecord(\\"5d9a59d4\\", options)
+  }
+  return _exports
+}
+var api = null
+if (module.hot) {(function () {
+  api = require(\\"vue-hot-reload-api\\")
+  api.install(require(\\"vue\\"))
+  if (!api.compatible) return
+  module.hot.accept()
+  if (module.hot.data) {
+    api.rerender(\\"5d9a59d4\\", { render: render, staticRenderFns: staticRenderFns })
+  }
+})()}
+"
+`;
+
+exports[`vue-template-loader inject normal styles 1`] = `
+"var styles = require('./style.css')
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(\\"div\\", [_vm._v(\\"hi\\")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = function (_exports) {
+  var options = typeof _exports === 'function'
+    ? _exports.options
+    : _exports
+  options.render = render
+  options.staticRenderFns = staticRenderFns
+  if (Object.keys(styles).length > 0) {
+    if (!options.computed) options.computed = {}
+    options.computed.$style = function () { return styles }
+  }
+  if (module.hot && api) {
+    api.createRecord(\\"5d9a59d4\\", options)
+  }
+  return _exports
+}
+var api = null
+if (module.hot) {(function () {
+  api = require(\\"vue-hot-reload-api\\")
+  api.install(require(\\"vue\\"))
+  if (!api.compatible) return
+  module.hot.accept()
+  if (module.hot.data) {
+    api.rerender(\\"5d9a59d4\\", { render: render, staticRenderFns: staticRenderFns })
+  }
+})()}
+"
+`;
+
+exports[`vue-template-loader inject scoped id and scoped css 1`] = `
+"var styles = require(\\"{{scoped-style-loader}}?id=5d9a59d4!./style.css\\")
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(\\"div\\", [_vm._v(\\"hi\\")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = function (_exports) {
+  var options = typeof _exports === 'function'
+    ? _exports.options
+    : _exports
+  options.render = render
+  options.staticRenderFns = staticRenderFns
+  options._scopeId = 'data-v-5d9a59d4'
+  if (Object.keys(styles).length > 0) {
+    if (!options.computed) options.computed = {}
+    options.computed.$style = function () { return styles }
+  }
+  if (module.hot && api) {
+    api.createRecord(\\"5d9a59d4\\", options)
+  }
+  return _exports
+}
+var api = null
+if (module.hot) {(function () {
+  api = require(\\"vue-hot-reload-api\\")
+  api.install(require(\\"vue\\"))
+  if (!api.compatible) return
+  module.hot.accept()
+  if (module.hot.data) {
+    api.rerender(\\"5d9a59d4\\", { render: render, staticRenderFns: staticRenderFns })
+  }
+})()}
+"
+`;
+
+exports[`vue-template-loader sets functional 1`] = `
+"var render = function(_h, _vm) {
+  var _c = _vm._c
+  return _c(\\"div\\", [_vm._v(_vm._s(_vm.props.data))])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = function (_exports) {
+  var options = typeof _exports === 'function'
+    ? _exports.options
+    : _exports
+  options.render = render
+  options.staticRenderFns = staticRenderFns
+  options.functional = true
+  if (module.hot && api) {
+    api.createRecord(\\"5d9a59d4\\", options)
+  }
+  return _exports
+}
+var api = null
+if (module.hot) {(function () {
+  api = require(\\"vue-hot-reload-api\\")
+  api.install(require(\\"vue\\"))
+  if (!api.compatible) return
+  module.hot.accept()
+  if (module.hot.data) {
+    api.rerender(\\"5d9a59d4\\", { render: render, staticRenderFns: staticRenderFns })
+  }
+})()}
+"
+`;

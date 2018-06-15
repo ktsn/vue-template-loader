@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`scoped style loader should add scope attribute the selector before >>> combinator 1`] = `
+"
+.foo .bar[data-v-1] .baz {
+}"
+`;
+
+exports[`scoped style loader should add scope id to keyframes 1`] = `
+"
+.foo[data-v-abc] { animation: test-data-v-abc 1s;
+}
+.bar[data-v-abc] { animation-name: test-data-v-abc; animation-duration: 1s;
+}
+@keyframes test-data-v-abc {
+0% { opacity: 0;
+}
+100% { opacity: 1;
+}
+}
+@-webkit-keyframes test-data-v-abc {
+from { opacity: 0;
+}
+to { opacity: 1;
+}
+}"
+`;
+
+exports[`scoped style loader should add scoped id into the last node for each selector 1`] = `
+"
+h1[data-v-1], h2 .foo[data-v-1] {
+}
+h3[data-v-1] {
+}"
+`;
+
+exports[`scoped style loader should add scoped id into the selectors in at-rules 1`] = `
+"
+@media screen {
+p[data-v-1] {
+}
+}"
+`;
+
+exports[`scoped style loader should not add scoped id into pseudo element/class 1`] = `
+"
+p[data-v-1]::before {
+}
+.test[data-v-1]:first-child {
+}"
+`;

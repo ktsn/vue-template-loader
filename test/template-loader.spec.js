@@ -4,6 +4,8 @@ const loader = require('../lib/template-loader')
 const Vue = require('vue')
 const Component = require('vue-class-component').default
 
+const styleLoaderPath = require.resolve('../lib/scoped-style-loader.js')
+
 function mockRender (options, data = {}) {
   const mock = {
     _c (tag, data, children) {
@@ -94,35 +96,22 @@ describe('vue-template-loader', () => {
 
   it('does not inject style related code if it is not specified', () => {
     const { code } = loadCode('<div>hi</div>')
-    expect(code).not.toMatch('_scopeId')
-    expect(code).not.toMatch('scoped-style-loader')
-    expect(code).not.toMatch(/\$style/)
+    expect(code).toMatchSnapshot()
   })
 
   it('inject normal styles', () => {
     const { code } = loadCode('<div>hi</div>', { style: './style.css' })
-    expect(code).not.toMatch('_scopeId')
-    expect(code).toMatch(/require\('\.\/style\.css'\)/)
+    expect(code).toMatchSnapshot()
   })
 
   it('inject scoped id and scoped css', () => {
     const { code } = loadCode('<div>hi</div>', { style: './style.css', query: { scoped: true }})
-    expect(code).toMatch(/options\._scopeId = 'data-v-[^']+'/)
-    expect(code).toMatch(
-      /require\("[^!?]*scoped-style-loader\.js\?id=[^!]+!\.\/style\.css"\)/
-    )
-  })
-
-  it('has the code for HMR', () => {
-    const { code } = loadCode('<div>hi</div>')
-    expect(code).toMatch('vue-hot-reload-api')
-    expect(code).toMatch('module.hot')
+    expect(code.replace(styleLoaderPath, '{{scoped-style-loader}}')).toMatchSnapshot()
   })
 
   it('disable HMR by option', () => {
     const { code } = loadCode('<div>hi</div>', { query: { hmr: false }})
-    expect(code).not.toMatch('vue-hot-reload-api')
-    expect(code).not.toMatch('module.hot')
+    expect(code).toMatchSnapshot()
   })
 
   it('generates source map', () => {
@@ -145,6 +134,6 @@ describe('vue-template-loader', () => {
 
   it('sets functional', () => {
     const { code } = loadCode('<div>{{ props.data }}</div>', { query: { functional: true }})
-    expect(code).toMatch('options.functional = true')
+    expect(code).toMatchSnapshot()
   })
 })
