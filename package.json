@@ -32,7 +32,7 @@
     "@vue/component-compiler-utils": "^2.0.0",
     "hash-sum": "^1.0.2",
     "loader-utils": "^1.1.0",
-    "source-map": "^0.7.3",
+    "source-map": "^0.6.1",
     "vue-hot-reload-api": "^2.3.0"
   },
   "devDependencies": {
