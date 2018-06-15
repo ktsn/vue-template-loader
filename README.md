@@ -62,6 +62,38 @@ module.exports = {
 }
 ```
 
+### Functional Component
+
+If you want to use functional component template, you need to set `functional: true` option to loader options. You may want to use `oneOf` to handle both normal and functional template configs.
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.html$/,
+        oneOf: [
+          // If the file name has `.functional` suffix, treat it as functional component template
+          // You can change this rule whatever you want.
+          {
+            test: /\.functional\.html$/,
+            loader: 'vue-template-loader',
+            options: {
+              functional: true
+            }
+          },
+
+          // Normal component template
+          {
+            loader : 'vue-template-loader'
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ### Loading Scoped Styles
 
 For an explanation of scoped styles, see the [vue-loader docs](https://vue-loader.vuejs.org/en/features/scoped-css.html).
@@ -240,9 +272,9 @@ If you use this loader with TypeScript, make sure to add a declaration file for 
 
 ```ts
 declare module '*.html' {
-  import Vue, { ComponentOptions } from 'vue'
+  import Vue, { ComponentOptions, FunctionalComponentOptions } from 'vue'
   interface WithRender {
-    <V extends Vue>(options: ComponentOptions<V>): ComponentOptions<V>
+    <V extends Vue, U extends ComponentOptions<V> | FunctionalComponentOptions>(options: U): U
     <V extends typeof Vue>(component: V): V
   }
   const withRender: WithRender
