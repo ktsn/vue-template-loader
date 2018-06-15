@@ -21,17 +21,40 @@ module.exports = {
       },
       {
         test: /\.pug$/,
-        use: [
+        oneOf: [
+          // Functional component template
           {
-            loader: '../../', // vue-template-loader
-            options: {
-              scoped: true,
-              transformAssetUrls: {
-                img: 'src'
-              }
-            }
+            test: /\.functional\.pug$/,
+            use: [
+              {
+                loader: '../..', // vue-template-loader
+                options: {
+                  functional: true,
+                  scoped: true,
+                  transformAssetUrls: {
+                    img: 'src'
+                  }
+                }
+              },
+              'pug-html-loader'
+            ]
           },
-          'pug-html-loader'
+
+          // Normal component template
+          {
+            use: [
+              {
+                loader: '../../', // vue-template-loader
+                options: {
+                  scoped: true,
+                  transformAssetUrls: {
+                    img: 'src'
+                  }
+                }
+              },
+              'pug-html-loader'
+            ]
+          }
         ]
       },
       {
