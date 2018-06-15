@@ -282,6 +282,43 @@ declare module '*.html' {
 }
 ```
 
+## Option Reference
+
+### transformAssetUrls
+
+- type: `Object`
+- default: `{}`
+
+To specify which attribute of elements are processed with webpack. Keys are element names while the values are their attribute string or array of string.
+
+### functional
+
+- type: `Boolean`
+- default: `false`
+
+Process template as functional component template if it is `true`.
+
+### scoped
+
+- type: `Boolean`
+- default: `false`
+
+If `true`, styles will be scoped.
+
+### hmr
+
+- type: `Boolean`
+- default: `true`
+
+If `false`, disable hot module replacement.
+
+### optimizeSSR
+
+- type: `Boolean`
+- default: `false`
+
+You can enable SSR optimazation when specify this option `true`.
+
 ## Templates
 
 There is vue-cli template using vue-template-loader (Thanks to @Toilal).
