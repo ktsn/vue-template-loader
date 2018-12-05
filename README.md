@@ -1,5 +1,8 @@
 # vue-template-loader
 
+[![Build Status](https://travis-ci.org/ktsn/vue-template-loader.svg?branch=master)](https://travis-ci.org/ktsn/vue-template-loader)
+[![vue-template-loader Dev Token](https://badge.devtoken.rocks/vue-template-loader)](https://devtoken.rocks/package/vue-template-loader)
+
 Vue.js 2.0 template loader for webpack
 
 This loader pre-compiles a html template into a render function using the [vue-template-compiler](https://www.npmjs.com/package/vue-template-compiler). Each html file is transformed into a function that takes a vue component options object and injects a render function, styles and HMR support.
