@@ -322,6 +322,13 @@ If `false`, disable hot module replacement.
 
 You can enable SSR optimazation when specify this option `true`.
 
+### compiler
+
+- type: `function`
+- default: `vue-template-compiler`
+
+You can override the default compiler using this option.
+
 ## Templates
 
 There is vue-cli template using vue-template-loader (Thanks to @Toilal).
